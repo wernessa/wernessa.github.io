@@ -1,4 +1,4 @@
 @import 'tailwindcss';
-@theme {  
-  --color-mint-500: oklch(26.2% 0.051 172.552);
+@theme {
+    --color-primary: #723ec8;
 }
