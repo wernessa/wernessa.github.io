@@ -13,7 +13,7 @@ document.querySelector('#app').innerHTML = `
     </a>
     <h1 class="text-2xl font-bold text-primary">Hello Vite!</h1>
     <div class="card">
-      <button id="counter" type="button" class="bg-blue-300 p-4"></button>
+      <button id="counter" type="button" class="bg-blue-300 p-4 mt-4"></button>
     </div>
     <p class="read-the-docs">
       Click on the Vite logo to learn more
