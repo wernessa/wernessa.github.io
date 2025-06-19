@@ -1,24 +1,61 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import { createClient } from '@supabase/supabase-js';
+import { format } from 'date-fns';
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1 class="text-2xl font-bold text-primary">Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button" class="bg-blue-300 p-4 mt-4"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+const supabaseUrl = 'https://qdvphbpepwevhonxmuil.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFkdnBoYnBlcHdldmhvbnhtdWlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc2NTMzNTksImV4cCI6MjA2MzIyOTM1OX0.6xTffFPl2eeBgLGRtBccnE2zcjqxyzNh89d088G3xAU';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-setupCounter(document.querySelector('#counter'))
+async function displayArticles() {
+  const container = document.getElementById('articles-container');
+  const sortSelect = document.getElementById('sort-select');
+  const sortValue = sortSelect ? sortSelect.value : 'created_at.desc';
+  const [column, direction] = sortValue.split('.');
+
+  const { data: article } = await supabase
+    .from('article')
+    .select('title, subtitle, author, created_at, content')
+    .order(column, { ascending: direction === 'asc' });
+
+
+  let html = '';
+  article.forEach((item, i) => {
+    html += `<div class="article">
+      <h3>Artykuł ${i + 1}</h3>
+      <p>Tytuł: ${item.title}</p>
+      <p>Podtytuł: ${item.subtitle}</p>
+      <p>Autor: ${item.author}</p>
+      <p>Data utworzenia: ${format(new Date(item.created_at), 'dd-MM-yyyy')}</p>
+      <p>Treść:${item.content}</p>
+    </div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  displayArticles();
+
+  const form = document.getElementById('article-form');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const title = form.title.value;
+    const subtitle = form.subtitle.value;
+    const author = form.author.value;
+    const content = form.content.value;
+    const createdAtRaw = form.created_at.value;
+    const created_at = new Date(createdAtRaw).toISOString(); // poprawny format daty
+
+    await supabase
+      .from('article')
+      .insert([{ title, subtitle, author, content, created_at }]);
+
+    form.reset();
+    displayArticles();
+  });
+
+  const sortSelect = document.getElementById('sort-select');
+  if (sortSelect) {
+    sortSelect.addEventListener('change', displayArticles);
+  }
+});
