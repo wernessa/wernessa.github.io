@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 import { format } from 'date-fns';
 const supabaseUrl = 'https://qoytgmrcnybqzcmnhhks.supabase.co';
-const supabaseKey = process.env.SUPABASE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+const SUPABASE_KEY = 'SUPABASE_CLIENT_API_KEY'
+const supabase = createClient(supabaseUrl, process.env.SUPABASE_KEY);
 
 async function displayArticles() {
   const container = document.getElementById('articles-container');
