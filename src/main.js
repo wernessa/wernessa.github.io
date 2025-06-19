@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 import { format } from 'date-fns';
 const supabaseUrl = 'https://qoytgmrcnybqzcmnhhks.supabase.co';
-const SUPABASE_KEY = 'SUPABASE_CLIENT_API_KEY'
-const supabase = createClient(supabaseUrl, process.env.SUPABASE_KEY);
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFveXRnbXJjbnlicXpjbW5oaGtzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzNTM4NjAsImV4cCI6MjA2MzkyOTg2MH0.3sZBFUPRZug-tGGNU11XJdL42cPsmEeFSKB_zlxlAMc';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function displayArticles() {
   const container = document.getElementById('articles-container');
