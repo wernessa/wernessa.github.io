@@ -1,5 +1,5 @@
 {
-  "name": "vite-starter",
+  "name": "project",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,7 +12,9 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.8",
-    "tailwindcss": "^4.1.8"
+    "@supabase/supabase-js": "^2.49.9",
+    "@tailwindcss/vite": "^4.1.6",
+    "date-fns": "^4.1.0",
+    "tailwindcss": "^4.1.6"
   }
 }
